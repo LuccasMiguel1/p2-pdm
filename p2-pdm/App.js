@@ -1,4 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
+ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, TextInput, View, Pressable, Image } from 'react-native';
 import {useState} from 'react';
 import { FlatList } from 'react-native';
@@ -65,21 +65,20 @@ export default function App() {
             renderItem={({ item }) => (
               <View>
                 <Text><Text style={{ fontWeight: 'bold' }}>Nome Comum: </Text> 
-                {item.translations.por.common} </Text>
+                {item.name.common} </Text>
                 <Text><Text style={{ fontWeight: 'bold' }}>Nome Oficial: </Text> 
                 {item.name.official} </Text>
                 <Text><Text style={{ fontWeight: 'bold' }}>Nome em Russo: </Text> 
                 {item.translations.rus.official} </Text>
-                <Text><Text style={{ fontWeight: 'bold' }}>Mapas: </Text> 
-                {item.maps.openStreetMaps} </Text>
-                <Text style={{ fontWeight: 'bold' }}>Bandeira: </Text>
-                <Image
-                  source={{ uri: item.flags.png }}
-                  style={{
-                    width: 300,
-                    height: 200
+                <Text style={styles.link onPress={() => {
+                    if (item.maps?.openStreetMaps) {
+                      Linking.openURL(item.maps.openStreetMaps);
+                    }
                   }}
-                />
+                >
+                  OpenStreetMap: {item.maps?.openStreetMaps ?? 'Não disponível'}
+                 </Text>
+                <Text style={{ fontWeight: 'bold' }}>Bandeira: </Text>
               </View>
             )}
             keyExtractor={(item) => item.name.common}
@@ -90,8 +89,8 @@ export default function App() {
           data={listaPaises}
             renderItem={({ item }) => (
               <View>
-                <Text><Text style={{ fontWeight: 'bold' }}>Nome Comum: </Text> 
-                {item.translations.por.common} </Text>
+                <Text><Text style={{ fontWeight: 'bold' }}>Nome Oficial: </Text> 
+                {item.name.official} </Text>
                 <Text style={{ fontWeight: 'bold' }}>Bandeira: </Text>
                 <Image
                   source={{ uri: item.flags.png }}
